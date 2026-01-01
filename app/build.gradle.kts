@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.flickrj.android)
+    implementation(files("libs/slf4j-android-1.6.1-RC1.jar"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
