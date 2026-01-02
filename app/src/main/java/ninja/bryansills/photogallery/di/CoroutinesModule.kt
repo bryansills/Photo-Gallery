@@ -17,9 +17,9 @@ annotation class ApplicationScope
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Dispatcher(val dispatcher: LoudPingDispatcher)
+annotation class Dispatcher(val dispatcher: Dispatch)
 
-enum class LoudPingDispatcher {
+enum class Dispatch {
     Default,
     Io,
 }
@@ -29,17 +29,17 @@ enum class LoudPingDispatcher {
 internal object CoroutinesModule {
 
     @Provides
-    @Dispatcher(LoudPingDispatcher.Io)
+    @Dispatcher(Dispatch.Io)
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Provides
-    @Dispatcher(LoudPingDispatcher.Default)
+    @Dispatcher(Dispatch.Default)
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 
     @Provides
     @Singleton
     @ApplicationScope
     fun providesCoroutineScope(
-        @Dispatcher(LoudPingDispatcher.Default) dispatcher: CoroutineDispatcher,
+        @Dispatcher(Dispatch.Default) dispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 }
