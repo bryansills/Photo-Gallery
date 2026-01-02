@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -53,6 +54,9 @@ dependencies {
     implementation(files("libs/slf4j-android-1.6.1-rc1.jar"))
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    implementation(libs.navigation)
+    implementation(libs.serialization.json)
+    implementation(libs.hilt.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

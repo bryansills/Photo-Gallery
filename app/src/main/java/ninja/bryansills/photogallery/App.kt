@@ -1,30 +1,23 @@
 package ninja.bryansills.photogallery
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import ninja.bryansills.photogallery.search.Search
+import ninja.bryansills.photogallery.search.SearchScreen
 import ninja.bryansills.photogallery.ui.theme.PhotoGalleryTheme
 
 
 @Composable
 fun App() {
     PhotoGalleryTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
-            )
+        val navController = rememberNavController()
+
+        NavHost(navController = navController, startDestination = Search) {
+            composable<Search> {
+                SearchScreen()
+            }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
