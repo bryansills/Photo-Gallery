@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.hilt.compose)
     coreLibraryDesugaring(libs.desugar)
     implementation(libs.datetime)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.okhttp)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

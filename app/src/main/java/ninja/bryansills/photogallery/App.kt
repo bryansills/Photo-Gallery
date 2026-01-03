@@ -18,7 +18,9 @@ fun App() {
 
         NavHost(navController = navController, startDestination = Search) {
             composable<Search> {
-                SearchScreen()
+                SearchScreen(
+                    onItemClicked = {}
+                )
             }
             composable<Detail> {
                 DetailScreen()

@@ -6,11 +6,11 @@ import kotlin.time.toKotlinInstant
 
 data class PhotoDetails(
     val id: String,
-    val title: String,
+    val title: String?,
     val url: String,
-    val description: String,
-    val dateTaken: Instant,
-    val datePosted: Instant
+    val description: String?,
+    val dateTaken: Instant?,
+    val datePosted: Instant?
 )
 
 fun Photo.toPhotoDetails(): PhotoDetails {
@@ -19,7 +19,7 @@ fun Photo.toPhotoDetails(): PhotoDetails {
         title = this.title,
         url = this.originalUrl,
         description = this.description,
-        dateTaken = this.dateTaken.toInstant().toKotlinInstant(),
-        datePosted = this.datePosted.toInstant().toKotlinInstant(),
+        dateTaken = this.dateTaken?.toInstant()?.toKotlinInstant(),
+        datePosted = this.datePosted?.toInstant()?.toKotlinInstant(),
     )
 }
