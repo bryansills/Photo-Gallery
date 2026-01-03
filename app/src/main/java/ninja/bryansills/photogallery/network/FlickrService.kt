@@ -2,6 +2,7 @@ package ninja.bryansills.photogallery.network
 
 import com.googlecode.flickrjandroid.Flickr
 import com.googlecode.flickrjandroid.FlickrException
+import com.googlecode.flickrjandroid.photos.SearchParameters
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,10 @@ import javax.inject.Singleton
 
 interface FlickrService {
     suspend fun getInteresting(): Result<List<GalleryItem>>
+
+    suspend fun search(query: String): Result<List<GalleryItem>>
+
+    suspend fun getPhotoById(id: String): Result<PhotoDetails>
 }
 
 class DefaultFlickrService @Inject constructor(
@@ -29,7 +34,9 @@ class DefaultFlickrService @Inject constructor(
     override suspend fun getInteresting(): Result<List<GalleryItem>> {
         return withContext(dispatcher) {
             try {
-                val response = flickr.interestingnessInterface.list
+                val response = FlickrCompat.getList(
+                    flickr.interestingnessInterface, null, null, SEARCH_PAGE_SIZE, 0
+                )
                 Result.success(response.toGalleryItems())
             } catch (ex: Throwable) {
                 if (ex.isLibraryException) {
@@ -40,6 +47,43 @@ class DefaultFlickrService @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun search(query: String): Result<List<GalleryItem>> {
+        return withContext(dispatcher) {
+            try {
+                val searchParams = SearchParameters().apply { text = query }
+                val response = flickr.photosInterface.search(searchParams, SEARCH_PAGE_SIZE, 0)
+                Result.success(response.toGalleryItems())
+            } catch (ex: Throwable) {
+                if (ex.isLibraryException) {
+                    Result.failure(ex)
+                } else {
+                    // don't want to accidentally catch exs that we shouldn't
+                    throw ex
+                }
+            }
+        }
+    }
+
+    override suspend fun getPhotoById(id: String): Result<PhotoDetails> {
+        return withContext(dispatcher) {
+            try {
+                val response = flickr.photosInterface.getPhoto(id)
+                Result.success(response.toPhotoDetails())
+            } catch (ex: Throwable) {
+                if (ex.isLibraryException) {
+                    Result.failure(ex)
+                } else {
+                    // don't want to accidentally catch exs that we shouldn't
+                    throw ex
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val SEARCH_PAGE_SIZE = 50
     }
 }
 

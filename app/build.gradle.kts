@@ -37,6 +37,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {
         compose = true
@@ -46,6 +47,7 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.fromTarget("17")
+        optIn = listOf("kotlin.time.ExperimentalTime")
     }
 }
 
@@ -57,6 +59,8 @@ dependencies {
     implementation(libs.navigation)
     implementation(libs.serialization.json)
     implementation(libs.hilt.compose)
+    coreLibraryDesugaring(libs.desugar)
+    implementation(libs.datetime)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
