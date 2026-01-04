@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
@@ -44,7 +45,7 @@ data object Search
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(onItemClicked: (String) -> Unit) {
+fun SearchScreen(onItemClicked: (String, String?) -> Unit) {
     val viewModel: SearchViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -91,13 +92,21 @@ fun SearchScreen(onItemClicked: (String) -> Unit) {
                 )
             }
 
+            val scrollState = rememberSaveable(
+                uiState.searchedTerm,
+                saver = LazyGridState.Saver
+            ) { LazyGridState() }
+
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(128.dp),
-                contentPadding = PaddingValues(top = 96.dp)
+                contentPadding = PaddingValues(top = 96.dp),
+                state = scrollState
             ) {
                 items(uiState.items) { galleryItem ->
                     AsyncImage(
-                        modifier = Modifier.aspectRatio(1f).clickable { onItemClicked(galleryItem.id) },
+                        modifier = Modifier.aspectRatio(1f).clickable {
+                            onItemClicked(galleryItem.id, galleryItem.title)
+                        },
                         model = galleryItem.url,
                         contentDescription = galleryItem.description,
                         contentScale = ContentScale.Crop

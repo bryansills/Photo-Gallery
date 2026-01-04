@@ -45,7 +45,8 @@ class SearchViewModel @Inject constructor(
             _uiState.update { it.copy(isWorking = true, error = null) }
 
             try {
-                val searchResult = if (searchText.isEmpty()) {
+                val query = searchText
+                val searchResult = if (query.isEmpty()) {
                     flickrService.getInteresting()
                 } else {
                     flickrService.search(searchText)
@@ -54,7 +55,12 @@ class SearchViewModel @Inject constructor(
                 searchResult.fold(
                     onSuccess = { success ->
                         _uiState.update {
-                            SearchUiState(isWorking = false, error = null, items = success)
+                            SearchUiState(
+                                searchedTerm = query,
+                                isWorking = false,
+                                error = null,
+                                items = success
+                            )
                         }
                     },
                     onFailure = { failure ->
@@ -85,6 +91,7 @@ class SearchViewModel @Inject constructor(
 }
 
 data class SearchUiState(
+    val searchedTerm: String = "",
     val isWorking: Boolean = false,
     val items: List<GalleryItem> = listOf(),
     val error: DisplayText? = null

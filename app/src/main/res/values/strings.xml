@@ -3,4 +3,9 @@
     <string name="no_photos_message">cannot find any photos :(</string>
     <string name="network_error">Network error: %1$s</string>
     <string name="unexpected_error">Unexpected error: %1$s</string>
+    <string name="unknown_photo">Unknown photo</string>
+    <string name="back">Back</string>
+    <string name="date_taken">Date taken: %1$s</string>
+    <string name="date_posted">Date posted: %1$s</string>
+    <string name="unknown">Unknown</string>
 </resources>

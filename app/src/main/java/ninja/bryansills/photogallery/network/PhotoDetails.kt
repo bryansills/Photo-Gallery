@@ -17,7 +17,7 @@ fun Photo.toPhotoDetails(): PhotoDetails {
     return PhotoDetails(
         id = this.id,
         title = this.title,
-        url = this.originalUrl,
+        url = this.largeUrl,
         description = this.description,
         dateTaken = this.dateTaken?.toInstant()?.toKotlinInstant(),
         datePosted = this.datePosted?.toInstant()?.toKotlinInstant(),
