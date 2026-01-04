@@ -79,6 +79,7 @@ dependencies {
     testImplementation(libs.kotlin.test)
     testImplementation(libs.coroutine.test)
     testImplementation(libs.navigation.test)
+    testImplementation(libs.paging.test)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

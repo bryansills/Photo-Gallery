@@ -2,13 +2,18 @@ package ninja.bryansills.photogallery.network
 
 import kotlin.time.Instant
 
-class FakeFlickrService(
-    var interestingResult: Result<List<GalleryItem>> = Result.success(listOf()),
-    var searchResult: Result<List<GalleryItem>> = Result.success(listOf()),
+class FakePageableFlickrService(
     var getByIdResult: Result<PhotoDetails> = Result.success(FakePhotoDetails),
 ) : FlickrService {
     override suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>> {
-        return interestingResult
+        val offset = page * pageSize
+        val items = (0 until pageSize).map { index ->
+            createTestGalleryItem(
+                id = index + offset,
+                query = ""
+            )
+        }
+        return Result.success(items)
     }
 
     override suspend fun search(
@@ -16,7 +21,14 @@ class FakeFlickrService(
         page: Int,
         pageSize: Int
     ): Result<List<GalleryItem>> {
-        return searchResult
+        val offset = page * pageSize
+        val items = (0 until pageSize).map { index ->
+            createTestGalleryItem(
+                id = index + offset,
+                query = query
+            )
+        }
+        return Result.success(items)
     }
 
     override suspend fun getPhotoById(id: String): Result<PhotoDetails> {
@@ -33,4 +45,14 @@ class FakeFlickrService(
             datePosted = Instant.DISTANT_FUTURE
         )
     }
+}
+
+fun createTestGalleryItem(id: Int = 0, query: String): GalleryItem {
+    return GalleryItem(
+        id = "test-id-$id",
+        title = "test title $id",
+        url = "https://fake.com/cool-$id.jpg",
+        description = "test description $id",
+        query = query
+    )
 }

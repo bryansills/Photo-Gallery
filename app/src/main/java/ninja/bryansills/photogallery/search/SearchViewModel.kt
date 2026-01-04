@@ -2,6 +2,7 @@ package ninja.bryansills.photogallery.search
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,7 +49,10 @@ class SearchViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
     fun search() {
-        lastSearch = searchText
+        // needed for unit tests where the ViewModel does not exist inside a Snapshot
+        Snapshot.withMutableSnapshot {
+            lastSearch = searchText
+        }
     }
 
     companion object {
