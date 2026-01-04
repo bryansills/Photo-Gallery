@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.Set;
 
 public class FlickrCompat {
+    /**
+     * Needed to correct nullability annotations on the library function
+     */
     public static PhotoList getList(
             @NotNull InterestingnessInterface interestingnessInterface,
             @Nullable Date date,
