@@ -42,6 +42,7 @@ turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
 navigation-test = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
+paging = { module = "androidx.paging:paging-compose", version = "3.3.6" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

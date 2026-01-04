@@ -20,9 +20,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface FlickrService {
-    suspend fun getInteresting(): Result<List<GalleryItem>>
+    suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>>
 
-    suspend fun search(query: String): Result<List<GalleryItem>>
+    suspend fun search(query: String, page: Int, pageSize: Int): Result<List<GalleryItem>>
 
     suspend fun getPhotoById(id: String): Result<PhotoDetails>
 }
@@ -31,13 +31,14 @@ class DefaultFlickrService @Inject constructor(
     private val flickr: Flickr,
     @Dispatcher(Dispatch.Io) private val dispatcher: CoroutineDispatcher
 ) : FlickrService {
-    override suspend fun getInteresting(): Result<List<GalleryItem>> {
+    override suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>> {
         return withContext(dispatcher) {
             try {
                 val response = FlickrCompat.getList(
-                    flickr.interestingnessInterface, null, null, SEARCH_PAGE_SIZE, 0
+                    flickr.interestingnessInterface, null, null, pageSize, page
                 )
-                Result.success(response.toGalleryItems())
+                val galleryItems = response.toGalleryItems(query = "")
+                Result.success(galleryItems)
             } catch (ex: Throwable) {
                 if (ex.isLibraryException) {
                     Result.failure(ex)
@@ -49,12 +50,13 @@ class DefaultFlickrService @Inject constructor(
         }
     }
 
-    override suspend fun search(query: String): Result<List<GalleryItem>> {
+    override suspend fun search(query: String, page: Int, pageSize: Int): Result<List<GalleryItem>> {
         return withContext(dispatcher) {
             try {
                 val searchParams = SearchParameters().apply { text = query }
-                val response = flickr.photosInterface.search(searchParams, SEARCH_PAGE_SIZE, 0)
-                Result.success(response.toGalleryItems())
+                val response = flickr.photosInterface.search(searchParams, pageSize, page)
+                val galleryItems = response.toGalleryItems(query = query)
+                Result.success(galleryItems)
             } catch (ex: Throwable) {
                 if (ex.isLibraryException) {
                     Result.failure(ex)
@@ -80,10 +82,6 @@ class DefaultFlickrService @Inject constructor(
                 }
             }
         }
-    }
-
-    companion object {
-        const val SEARCH_PAGE_SIZE = 50
     }
 }
 

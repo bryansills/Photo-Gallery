@@ -8,14 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,14 +28,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import kotlinx.serialization.Serializable
-import ninja.bryansills.photogallery.R
-import ninja.bryansills.photogallery.resolve
 
 @Serializable
 data object Search
@@ -47,7 +42,7 @@ data object Search
 @Composable
 fun SearchScreen(onItemClicked: (String, String?) -> Unit) {
     val viewModel: SearchViewModel = hiltViewModel()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val pagingItems = viewModel.galleryItems.collectAsLazyPagingItems()
 
     var searchExpanded by rememberSaveable { mutableStateOf(false) }
 
@@ -77,23 +72,14 @@ fun SearchScreen(onItemClicked: (String, String?) -> Unit) {
                 content = {}
             )
 
-            val errorMessage = uiState.error
-            if (uiState.isWorking) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).size(48.dp))
-            } else if (errorMessage != null) {
-                ErrorCard(
-                    message = errorMessage.resolve(),
-                    modifier = Modifier.align(Alignment.Center).widthIn(max = 240.dp)
-                )
-            } else if (uiState.items.isEmpty()) {
-                ErrorCard(
-                    message = stringResource(R.string.no_photos_message),
-                    modifier = Modifier.align(Alignment.Center).widthIn(max = 240.dp)
+            if (pagingItems.loadState.refresh == LoadState.Loading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(64.dp).align(Alignment.Center)
                 )
             }
 
             val scrollState = rememberSaveable(
-                uiState.searchedTerm,
+                viewModel.lastSearch,
                 saver = LazyGridState.Saver
             ) { LazyGridState() }
 
@@ -102,7 +88,8 @@ fun SearchScreen(onItemClicked: (String, String?) -> Unit) {
                 contentPadding = PaddingValues(top = 96.dp),
                 state = scrollState
             ) {
-                items(uiState.items) { galleryItem ->
+                items(count = pagingItems.itemCount) { index ->
+                    val galleryItem = pagingItems[index]!!
                     AsyncImage(
                         modifier = Modifier.aspectRatio(1f).clickable {
                             onItemClicked(galleryItem.id, galleryItem.title)
@@ -112,14 +99,17 @@ fun SearchScreen(onItemClicked: (String, String?) -> Unit) {
                         contentScale = ContentScale.Crop
                     )
                 }
+
+                if (pagingItems.loadState.append == LoadState.Loading) {
+                    item {
+                        Box(modifier = Modifier.fillMaxWidth().aspectRatio(1f)) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(48.dp).align(Alignment.Center)
+                            )
+                        }
+                    }
+                }
             }
         }
-    }
-}
-
-@Composable
-private fun ErrorCard(message: String, modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
-        Text(text = message, modifier = Modifier.padding(16.dp))
     }
 }

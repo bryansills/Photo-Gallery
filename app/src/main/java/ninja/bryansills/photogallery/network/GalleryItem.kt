@@ -6,16 +6,18 @@ data class GalleryItem(
     val id: String,
     val title: String?,
     val url: String,
-    val description: String?
+    val description: String?,
+    val query: String,
 )
 
-fun PhotoList.toGalleryItems(): List<GalleryItem> {
+fun PhotoList.toGalleryItems(query: String): List<GalleryItem> {
     return this.map {
         GalleryItem(
             id = it.id,
             title = it.title,
             url = it.mediumUrl,
-            description = it.description
+            description = it.description,
+            query = query,
         )
     }
 }
