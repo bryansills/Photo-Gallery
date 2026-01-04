@@ -36,6 +36,8 @@ import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
+import me.saket.telephoto.zoomable.rememberZoomableState
+import me.saket.telephoto.zoomable.zoomable
 import ninja.bryansills.photogallery.R
 import ninja.bryansills.photogallery.network.PhotoDetails
 import ninja.bryansills.photogallery.resolve
@@ -101,7 +103,7 @@ private fun DetailView(photoDetails: PhotoDetails, modifier: Modifier = Modifier
         modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState())
     ) {
         AsyncImage(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().zoomable(rememberZoomableState()),
             model = photoDetails.url,
             contentDescription = photoDetails.description
         )
