@@ -3,7 +3,6 @@ package ninja.bryansills.photogallery.search
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.testing.asSnapshot
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import ninja.bryansills.photogallery.RepeatTest
@@ -17,7 +16,7 @@ class SearchViewModelTest {
 
     @Test
     fun `items page as expected`() = runTest {
-        val galleryItems = createViewModel(testScheduler).galleryItems
+        val galleryItems = createViewModel().galleryItems
         val itemsSnapshot = galleryItems.asSnapshot {
             scrollTo(50)
         }
@@ -27,7 +26,7 @@ class SearchViewModelTest {
     @RepeatTest(attemptCount = 1000)
     @Test
     fun `query updates the paging`() = runTest {
-        val viewModel = createViewModel(testScheduler)
+        val viewModel = createViewModel()
         val galleryItems = viewModel.galleryItems
 
         viewModel.searchText = "mango"
@@ -51,7 +50,7 @@ class SearchViewModelTest {
 //        assertEquals("not the same", "totally different")
 //    }
 
-    private fun TestScope.createViewModel(testScheduler: TestCoroutineScheduler): SearchViewModel {
+    private fun TestScope.createViewModel(): SearchViewModel {
         return SearchViewModel(
             flickrService = FakePageableFlickrService(),
             ioDispatcher = StandardTestDispatcher(testScheduler),
