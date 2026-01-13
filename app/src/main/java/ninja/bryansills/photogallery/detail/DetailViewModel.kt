@@ -2,10 +2,10 @@ package ninja.bryansills.photogallery.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
@@ -17,12 +17,14 @@ import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
 import ninja.bryansills.photogallery.network.FlickrService
 import ninja.bryansills.photogallery.network.PhotoDetails
+import se.ansman.dagger.auto.androidx.viewmodel.ViewModelSpecific
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val flickrService: FlickrService,
     @Dispatcher(Dispatch.Io) private val ioDispatcher: CoroutineDispatcher,
+    @ViewModelSpecific vmScope: CoroutineScope,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val route: Detail = savedStateHandle.toRoute()
@@ -50,7 +52,7 @@ class DetailViewModel @Inject constructor(
     }
         .flowOn(ioDispatcher)
         .stateIn(
-            scope = viewModelScope,
+            scope = vmScope,
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = DetailUiState.Loading
         )

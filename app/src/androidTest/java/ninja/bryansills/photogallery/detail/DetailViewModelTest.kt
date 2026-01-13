@@ -3,13 +3,16 @@ package ninja.bryansills.photogallery.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
 import app.cash.turbine.runTestTurbine
+import app.cash.turbine.TurbineTestScope
 import com.googlecode.flickrjandroid.FlickrException
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestScope
 import ninja.bryansills.photogallery.network.FakeFlickrService
 import ninja.bryansills.photogallery.network.PhotoDetails
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.TestTimeSource
 
 /**
  * This test is instrumented because of the limitation described in this comment:
@@ -53,7 +56,7 @@ class DetailViewModelTest {
         turbine.ensureAllEventsConsumed()
     }
 
-    private fun createViewModel(
+    private fun TurbineTestScope.createViewModel(
         networkResponse: Result<PhotoDetails>,
         testScheduler: TestCoroutineScheduler
     ): DetailViewModel {
@@ -62,6 +65,7 @@ class DetailViewModelTest {
         return DetailViewModel(
             flickrService = fakeService,
             ioDispatcher = StandardTestDispatcher(testScheduler),
+            vmScope = backgroundScope,
             savedStateHandle = SavedStateHandle(Detail("test-1324", "test title"))
         )
     }
