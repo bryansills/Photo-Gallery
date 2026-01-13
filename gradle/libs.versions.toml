@@ -44,7 +44,7 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
 navigation-test = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
 paging = { module = "androidx.paging:paging-compose", version.ref = "paging" }
-paging-test = { module = "androidx.paging:paging-testing", version = "paging" }
+paging-test = { module = "androidx.paging:paging-testing", version.ref = "paging" }
 telephoto = { module = "me.saket.telephoto:zoomable-image-coil3", version = "0.18.0" }
 
 [plugins]
