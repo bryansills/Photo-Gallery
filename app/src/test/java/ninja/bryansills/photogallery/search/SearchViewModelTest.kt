@@ -5,10 +5,16 @@ import androidx.paging.testing.asSnapshot
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
+import ninja.bryansills.photogallery.RepeatTest
+import ninja.bryansills.photogallery.RepeatTestRule
 import ninja.bryansills.photogallery.network.FakePageableFlickrService
+import org.junit.Rule
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class SearchViewModelTest {
+    @get:Rule() val repeatTestRule = RepeatTestRule()
+
     @Test
     fun `items page as expected`() = runTest {
         val galleryItems = createViewModel(testScheduler).galleryItems
@@ -18,6 +24,7 @@ class SearchViewModelTest {
         assert(itemsSnapshot.size > 50) { "Paging should load in more gallery items as the user scrolls" }
     }
 
+    @RepeatTest(attemptCount = 100)
     @Test
     fun `query updates the paging`() = runTest {
         val viewModel = createViewModel(testScheduler)
@@ -37,6 +44,12 @@ class SearchViewModelTest {
         }
         assert(buffaloSnapshot.all { it.query == "buffalo" }) { "Search results should be for buffaloes" }
     }
+
+//    @RepeatTest(attemptCount = 50)
+//    @Test
+//    fun `all fails`() {
+//        assertEquals("not the same", "totally different")
+//    }
 
     private fun createViewModel(testScheduler: TestCoroutineScheduler): SearchViewModel {
         return SearchViewModel(
