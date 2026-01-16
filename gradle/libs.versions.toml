@@ -32,7 +32,7 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.7.1" }
+datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.7.1-0.6.x-compat" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
 flickrj-android = { module = "com.googlecode.flickrj-android:flickrj-android", version.ref = "flickrjAndroid" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
