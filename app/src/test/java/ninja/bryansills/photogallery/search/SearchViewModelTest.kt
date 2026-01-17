@@ -9,7 +9,7 @@ import ninja.bryansills.photogallery.RepeatTest
 import ninja.bryansills.photogallery.RepeatTestRule
 import ninja.bryansills.photogallery.network.FakePageableFlickrService
 import org.junit.Rule
-import kotlin.test.Test
+import org.junit.Test
 
 class SearchViewModelTest {
     @get:Rule() val repeatTestRule = RepeatTestRule()
