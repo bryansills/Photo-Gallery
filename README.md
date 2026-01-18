@@ -18,7 +18,7 @@ Thanks!
 
 ## Setup
 
-In the file [FlickrService.kt](app/src/main/java/ninja/bryansills/photogallery/network/FlickrService.kt), add your Flickr API key to the `FlickrModule.provideFlickr()` function.
+In the file [FlickrService.kt](app/src/main/java/ninja/bryansills/photogallery/network/FlickrService.kt#L109), add your Flickr API key to the `FlickrModule.provideFlickr()` function.
 
 ## So you want to give me a job...
 
