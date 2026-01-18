@@ -2,17 +2,15 @@ package ninja.bryansills.photogallery.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
-import app.cash.turbine.runTestTurbine
 import app.cash.turbine.TurbineTestScope
+import app.cash.turbine.runTestTurbine
 import com.googlecode.flickrjandroid.FlickrException
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.TestScope
 import ninja.bryansills.photogallery.network.FakeFlickrService
 import ninja.bryansills.photogallery.network.PhotoDetails
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.time.TestTimeSource
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 /**
  * This test is instrumented because of the limitation described in this comment:

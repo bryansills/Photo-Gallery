@@ -1,10 +1,10 @@
 [versions]
 activityCompose = "1.12.2"
-agp = "8.13.2"
+agp = "9.0.0"
 coil = "3.3.0"
 composeBom = "2026.01.00"
 coreKtx = "1.17.0"
-dagger = "2.58" # TODO: delete kotlin-metadata when upgrading
+dagger = "2.58" # TODO: when upgrading to 2.59, delete kotlin-metadata also `android.newDsl=false`
 espressoCore = "3.7.0"
 flickrjAndroid = "2.1.0"
 junit = "4.13.2"
@@ -52,7 +52,6 @@ turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.4" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
