@@ -16,6 +16,10 @@ In addition to all the base requirements, I also added:
 
 Thanks!
 
+## Setup
+
+In the file [FlickrService.kt](app/src/main/java/ninja/bryansills/photogallery/network/FlickrService.kt), add your Flickr API key to the `FlickrModule.provideFlickr()` function.
+
 ## So you want to give me a job...
 
 Companies love to give coding assignments to people when they are interviewing for jobs and I've done my fair share.
