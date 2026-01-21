@@ -4,7 +4,7 @@ agp = "9.0.0"
 coil = "3.3.0"
 composeBom = "2026.01.00"
 coreKtx = "1.17.0"
-dagger = "2.58" # TODO: when upgrading to 2.59, delete kotlin-metadata also `android.newDsl=false`
+dagger = "2.59" # TODO: when upgrading to 2.59, delete kotlin-metadata also `android.newDsl=false`
 espressoCore = "3.7.0"
 flickrjAndroid = "2.1.0"
 junit = "4.13.2"
