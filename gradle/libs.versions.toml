@@ -4,7 +4,7 @@ agp = "9.0.0"
 coil = "3.3.0"
 composeBom = "2026.01.00"
 coreKtx = "1.17.0"
-dagger = "2.59" # TODO: when upgrading to 2.59, delete kotlin-metadata also `android.newDsl=false`
+dagger = "2.59"
 espressoCore = "3.7.0"
 flickrjAndroid = "2.1.0"
 junit = "4.13.2"
@@ -39,7 +39,6 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagge
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
 hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.3.0" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-kotlin-metadata = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 navigation-test = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
