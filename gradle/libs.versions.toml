@@ -37,7 +37,7 @@ desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
 flickrj-android = { module = "com.googlecode.flickrj-android:flickrj-android", version.ref = "flickrjAndroid" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.3.0" }
+hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.4.0" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
