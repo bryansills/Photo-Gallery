@@ -31,7 +31,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
+coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.11.0" }
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.8.0-0.6.x-compat" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
 flickrj-android = { module = "com.googlecode.flickrj-android:flickrj-android", version.ref = "flickrjAndroid" }
