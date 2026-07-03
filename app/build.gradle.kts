@@ -51,6 +51,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.coroutine.android)
     implementation(libs.flickrj.android)
     implementation(files("libs/slf4j-android-1.6.1-rc1.jar"))
     implementation(libs.hilt.android)
