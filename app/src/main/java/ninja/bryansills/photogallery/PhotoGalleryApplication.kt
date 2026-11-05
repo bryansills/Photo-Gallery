@@ -1,7 +1,18 @@
 package ninja.bryansills.photogallery
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import dev.zacsweers.metro.createGraph
+import dev.zacsweers.metrox.android.MetroAppComponentProviders
+import dev.zacsweers.metrox.android.MetroApplication
 
-@HiltAndroidApp
-class PhotoGalleryApplication : Application()
+class PhotoGalleryApplication : Application(), MetroApplication {
+    private lateinit var androidAppGraph: AndroidAppGraph
+
+    override val appComponentProviders: MetroAppComponentProviders
+        get() = androidAppGraph
+
+    override fun onCreate() {
+        super.onCreate()
+        androidAppGraph = createGraph<AndroidAppGraph>()
+    }
+}

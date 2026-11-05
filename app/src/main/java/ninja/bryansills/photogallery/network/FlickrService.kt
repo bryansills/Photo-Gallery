@@ -3,11 +3,12 @@ package ninja.bryansills.photogallery.network
 import com.googlecode.flickrjandroid.Flickr
 import com.googlecode.flickrjandroid.FlickrException
 import com.googlecode.flickrjandroid.photos.SearchParameters
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Provides
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ninja.bryansills.photogallery.di.Dispatch
@@ -16,8 +17,6 @@ import org.json.JSONException
 import java.io.IOException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-import javax.inject.Inject
-import javax.inject.Singleton
 
 interface FlickrService {
     suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>>
@@ -27,7 +26,9 @@ interface FlickrService {
     suspend fun getPhotoById(id: String): Result<PhotoDetails>
 }
 
-class DefaultFlickrService @Inject constructor(
+@ContributesBinding(AppScope::class)
+@Inject
+class DefaultFlickrService(
     private val flickr: Flickr,
     @Dispatcher(Dispatch.Io) private val dispatcher: CoroutineDispatcher
 ) : FlickrService {
@@ -94,19 +95,12 @@ private val Throwable.isLibraryException: Boolean
                 || this is InvalidKeyException
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface FlickrModule {
-    @Binds
-    @Singleton
-    fun bindFlickrService(impl: DefaultFlickrService): FlickrService
-
-    companion object {
-        @Provides
-        @Singleton
-        fun provideFlickr(): Flickr {
-            // lots of ways to do this better/safer, but not worth implementing now
-            return Flickr("add in your API key here")
-        }
+@ContributesTo(AppScope::class)
+interface FlickrModule {
+    @Provides
+    @SingleIn(AppScope::class)
+    fun provideFlickr(): Flickr {
+        // lots of ways to do this better/safer, but not worth implementing now
+        return Flickr("add in your API key here")
     }
 }

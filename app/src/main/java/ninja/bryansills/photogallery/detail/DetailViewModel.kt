@@ -2,8 +2,13 @@ package ninja.bryansills.photogallery.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.navigation.toRoute
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
+import dev.zacsweers.metrox.viewmodel.ViewModelAssistedFactory
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,18 +20,17 @@ import ninja.bryansills.photogallery.DisplayText
 import ninja.bryansills.photogallery.R
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
+import ninja.bryansills.photogallery.di.ViewModelSpecific
 import ninja.bryansills.photogallery.network.FlickrService
 import ninja.bryansills.photogallery.network.PhotoDetails
-import se.ansman.dagger.auto.androidx.viewmodel.ViewModelSpecific
-import javax.inject.Inject
 
-@HiltViewModel
-class DetailViewModel @Inject constructor(
+@AssistedInject
+class DetailViewModel constructor(
     private val flickrService: FlickrService,
     @Dispatcher(Dispatch.Io) private val ioDispatcher: CoroutineDispatcher,
     @ViewModelSpecific vmScope: CoroutineScope,
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel(vmScope) {
     private val route: Detail = savedStateHandle.toRoute()
 
     val uiState: StateFlow<DetailUiState> = flow {
@@ -56,6 +60,15 @@ class DetailViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = DetailUiState.Loading
         )
+
+    @AssistedFactory
+    interface Factory : ViewModelAssistedFactory {
+        override fun create(extras: CreationExtras): ViewModel {
+            return create(extras.createSavedStateHandle())
+        }
+
+        fun create(@Assisted savedStateHandle: SavedStateHandle): DetailViewModel
+    }
 }
 
 sealed interface DetailUiState {

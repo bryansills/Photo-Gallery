@@ -27,9 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.MonthNames
@@ -51,7 +51,7 @@ fun DetailScreen(
     title: String?,
     onBack: () -> Unit
 ) {
-    val uiState by hiltViewModel<DetailViewModel>().uiState.collectAsStateWithLifecycle()
+    val uiState by assistedMetroViewModel<DetailViewModel>().uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
