@@ -15,6 +15,7 @@ lifecycleRuntimeKtx = "2.11.0"
 metro = "1.5.2"
 navigation = "2.10.2"
 paging = "3.5.3"
+retrofit = "3.0.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -51,6 +52,8 @@ navigation = { module = "androidx.navigation:navigation-compose", version.ref = 
 navigation-test = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
 paging = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 paging-test = { module = "androidx.paging:paging-testing", version.ref = "paging" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-kotlinx = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.12.0" }
 telephoto = { module = "me.saket.telephoto:zoomable-image-coil3", version = "0.19.0" }
 turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }

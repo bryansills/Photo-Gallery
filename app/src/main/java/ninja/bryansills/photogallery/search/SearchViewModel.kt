@@ -24,13 +24,13 @@ import kotlinx.coroutines.flow.flatMapLatest
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
 import ninja.bryansills.photogallery.di.ViewModelSpecific
-import ninja.bryansills.photogallery.flickr.FlickrPagingSource
-import ninja.bryansills.photogallery.flickr.FlickrService
+import ninja.bryansills.photogallery.flickr.GalleryItemPagingSource
+import ninja.bryansills.photogallery.network.PhotoRepository
 import javax.inject.Inject
 
 @AssistedInject
 class SearchViewModel @Inject constructor(
-    private val flickrService: FlickrService,
+    private val photoRepository: PhotoRepository,
     @Dispatcher(Dispatch.Io) private val ioDispatcher: CoroutineDispatcher,
     @ViewModelSpecific vmScope: CoroutineScope,
     @Assisted private val savedStateHandle: SavedStateHandle
@@ -44,8 +44,8 @@ class SearchViewModel @Inject constructor(
             Pager(
                 config = PagingConfig(pageSize = PAGE_SIZE)
             ) {
-                FlickrPagingSource(
-                    flickrService = flickrService,
+                GalleryItemPagingSource(
+                    photoRepository = photoRepository,
                     ioDispatcher = ioDispatcher,
                     query = query,
                     pageSize = PAGE_SIZE

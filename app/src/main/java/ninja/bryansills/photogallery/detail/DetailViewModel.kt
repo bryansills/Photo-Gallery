@@ -22,11 +22,11 @@ import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
 import ninja.bryansills.photogallery.di.ViewModelSpecific
-import ninja.bryansills.photogallery.flickr.FlickrService
+import ninja.bryansills.photogallery.network.PhotoRepository
 
 @AssistedInject
 class DetailViewModel constructor(
-    private val flickrService: FlickrService,
+    private val photoRepository: PhotoRepository,
     @Dispatcher(Dispatch.Io) private val ioDispatcher: CoroutineDispatcher,
     @ViewModelSpecific vmScope: CoroutineScope,
     @Assisted private val savedStateHandle: SavedStateHandle
@@ -35,7 +35,7 @@ class DetailViewModel constructor(
 
     val uiState: StateFlow<DetailUiState> = flow {
         val uiState = try {
-            val detailResult = flickrService.getPhotoById(route.id)
+            val detailResult = photoRepository.getPhotoById(route.id)
             detailResult.fold(
                 onSuccess = { success ->
                     DetailUiState.Loaded(success)

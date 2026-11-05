@@ -17,27 +17,20 @@ import ninja.bryansills.photogallery.data.GalleryItem
 import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
+import ninja.bryansills.photogallery.network.PhotoRepository
 import org.json.JSONException
 import java.io.IOException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
 import kotlin.time.toKotlinInstant
 
-interface FlickrService {
-    suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>>
-
-    suspend fun search(query: String, page: Int, pageSize: Int): Result<List<GalleryItem>>
-
-    suspend fun getPhotoById(id: String): Result<PhotoDetails>
-}
-
 @ContributesBinding(AppScope::class)
 @Inject
-class DefaultFlickrService(
+class FlickrPhotoRepository(
     private val flickr: Flickr,
     @Dispatcher(Dispatch.Io) private val dispatcher: CoroutineDispatcher
-) : FlickrService {
-    override suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>> {
+) : PhotoRepository {
+    override suspend fun getPhotos(page: Int, pageSize: Int): Result<List<GalleryItem>> {
         return withContext(dispatcher) {
             try {
                 val response = FlickrCompat.getList(

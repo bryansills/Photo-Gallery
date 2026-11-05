@@ -78,6 +78,8 @@ dependencies {
     implementation(libs.metro.runtime)
     implementation(libs.metro.viewmodel)
     implementation(libs.metro.viewmodel.compose)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlinx)
 
     testImplementation(libs.junit)
     testImplementation(libs.turbine)

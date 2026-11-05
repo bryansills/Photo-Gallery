@@ -7,7 +7,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import ninja.bryansills.photogallery.RepeatTest
 import ninja.bryansills.photogallery.RepeatTestRule
-import ninja.bryansills.photogallery.network.FakePageableFlickrService
+import ninja.bryansills.photogallery.network.FakePageablePhotoRepository
 import org.junit.Rule
 import org.junit.Test
 
@@ -52,7 +52,7 @@ class SearchViewModelTest {
 
     private fun TestScope.createViewModel(): SearchViewModel {
         return SearchViewModel(
-            flickrService = FakePageableFlickrService(),
+            photoRepository = FakePageablePhotoRepository(),
             ioDispatcher = StandardTestDispatcher(testScheduler),
             vmScope = backgroundScope,
             savedStateHandle = SavedStateHandle()
