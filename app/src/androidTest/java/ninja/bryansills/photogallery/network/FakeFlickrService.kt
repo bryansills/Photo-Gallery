@@ -1,5 +1,8 @@
 package ninja.bryansills.photogallery.network
 
+import ninja.bryansills.photogallery.data.GalleryItem
+import ninja.bryansills.photogallery.data.PhotoDetails
+import ninja.bryansills.photogallery.flickr.FlickrService
 import kotlin.time.Instant
 
 class FakeFlickrService(

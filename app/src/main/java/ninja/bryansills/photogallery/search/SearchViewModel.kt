@@ -24,8 +24,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
 import ninja.bryansills.photogallery.di.ViewModelSpecific
-import ninja.bryansills.photogallery.network.FlickrService
-import ninja.bryansills.photogallery.paging.FlickrPagingSource
+import ninja.bryansills.photogallery.flickr.FlickrPagingSource
+import ninja.bryansills.photogallery.flickr.FlickrService
 import javax.inject.Inject
 
 @AssistedInject

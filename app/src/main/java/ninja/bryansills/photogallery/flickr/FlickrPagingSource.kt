@@ -1,11 +1,10 @@
-package ninja.bryansills.photogallery.paging
+package ninja.bryansills.photogallery.flickr
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ninja.bryansills.photogallery.network.FlickrService
-import ninja.bryansills.photogallery.network.GalleryItem
+import ninja.bryansills.photogallery.data.GalleryItem
 
 class FlickrPagingSource(
     private val flickrService: FlickrService,

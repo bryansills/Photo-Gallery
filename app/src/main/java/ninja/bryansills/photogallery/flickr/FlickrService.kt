@@ -1,7 +1,9 @@
-package ninja.bryansills.photogallery.network
+package ninja.bryansills.photogallery.flickr
 
 import com.googlecode.flickrjandroid.Flickr
 import com.googlecode.flickrjandroid.FlickrException
+import com.googlecode.flickrjandroid.photos.Photo
+import com.googlecode.flickrjandroid.photos.PhotoList
 import com.googlecode.flickrjandroid.photos.SearchParameters
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
@@ -11,12 +13,15 @@ import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ninja.bryansills.photogallery.data.GalleryItem
+import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
 import org.json.JSONException
 import java.io.IOException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
+import kotlin.time.toKotlinInstant
 
 interface FlickrService {
     suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>>
@@ -93,6 +98,29 @@ private val Throwable.isLibraryException: Boolean
                 || this is JSONException
                 || this is NoSuchAlgorithmException
                 || this is InvalidKeyException
+}
+
+private fun PhotoList.toGalleryItems(query: String): List<GalleryItem> {
+    return this.map {
+        GalleryItem(
+            id = it.id,
+            title = it.title,
+            url = it.mediumUrl,
+            description = it.description,
+            query = query,
+        )
+    }
+}
+
+private fun Photo.toPhotoDetails(): PhotoDetails {
+    return PhotoDetails(
+        id = this.id,
+        title = this.title,
+        url = this.largeUrl,
+        description = this.description,
+        dateTaken = this.dateTaken?.toInstant()?.toKotlinInstant(),
+        datePosted = this.datePosted?.toInstant()?.toKotlinInstant(),
+    )
 }
 
 @ContributesTo(AppScope::class)

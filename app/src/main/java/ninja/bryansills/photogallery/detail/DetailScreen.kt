@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import ninja.bryansills.photogallery.R
-import ninja.bryansills.photogallery.network.PhotoDetails
+import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.resolve
 
 @Serializable

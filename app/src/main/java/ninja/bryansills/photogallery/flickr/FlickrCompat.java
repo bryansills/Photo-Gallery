@@ -1,4 +1,4 @@
-package ninja.bryansills.photogallery.network;
+package ninja.bryansills.photogallery.flickr;
 
 import com.googlecode.flickrjandroid.FlickrException;
 import com.googlecode.flickrjandroid.interestingness.InterestingnessInterface;

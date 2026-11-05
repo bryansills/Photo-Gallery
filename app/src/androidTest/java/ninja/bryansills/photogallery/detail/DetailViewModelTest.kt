@@ -7,8 +7,8 @@ import app.cash.turbine.runTestTurbine
 import com.googlecode.flickrjandroid.FlickrException
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
+import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.network.FakeFlickrService
-import ninja.bryansills.photogallery.network.PhotoDetails
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

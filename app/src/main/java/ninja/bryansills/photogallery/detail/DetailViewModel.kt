@@ -18,11 +18,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import ninja.bryansills.photogallery.DisplayText
 import ninja.bryansills.photogallery.R
+import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
 import ninja.bryansills.photogallery.di.ViewModelSpecific
-import ninja.bryansills.photogallery.network.FlickrService
-import ninja.bryansills.photogallery.network.PhotoDetails
+import ninja.bryansills.photogallery.flickr.FlickrService
 
 @AssistedInject
 class DetailViewModel constructor(
