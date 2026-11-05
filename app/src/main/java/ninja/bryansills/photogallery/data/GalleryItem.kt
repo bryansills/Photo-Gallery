@@ -1,7 +1,5 @@
 package ninja.bryansills.photogallery.data
 
-import com.googlecode.flickrjandroid.photos.PhotoList
-
 data class GalleryItem(
     val id: String,
     val title: String?,

@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.navigation.toRoute
+import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
+import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metrox.viewmodel.ViewModelAssistedFactory
+import dev.zacsweers.metrox.viewmodel.ViewModelAssistedFactoryKey
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -62,6 +65,8 @@ class DetailViewModel constructor(
         )
 
     @AssistedFactory
+    @ViewModelAssistedFactoryKey(DetailViewModel::class)
+    @ContributesIntoMap(AppScope::class)
     interface Factory : ViewModelAssistedFactory {
         override fun create(extras: CreationExtras): ViewModel {
             return create(extras.createSavedStateHandle())

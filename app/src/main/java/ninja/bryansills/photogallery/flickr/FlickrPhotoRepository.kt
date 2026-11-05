@@ -6,9 +6,7 @@ import com.googlecode.flickrjandroid.photos.Photo
 import com.googlecode.flickrjandroid.photos.PhotoList
 import com.googlecode.flickrjandroid.photos.SearchParameters
 import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.ContributesTo
-import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,11 +22,11 @@ import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
 import kotlin.time.toKotlinInstant
 
-@ContributesBinding(AppScope::class)
-@Inject
+//@ContributesBinding(AppScope::class)
+//@Inject
 class FlickrPhotoRepository(
     private val flickr: Flickr,
-    @Dispatcher(Dispatch.Io) private val dispatcher: CoroutineDispatcher
+    @Dispatcher(Dispatch.Io) private val dispatcher: CoroutineDispatcher,
 ) : PhotoRepository {
     override suspend fun getPhotos(page: Int, pageSize: Int): Result<List<GalleryItem>> {
         return withContext(dispatcher) {
