@@ -60,7 +60,6 @@ dependencies {
     implementation(files("libs/slf4j-android-1.6.1-rc1.jar"))
     implementation(libs.coroutine.android)
     implementation(libs.flickrj.android)
-    implementation(libs.navigation)
     implementation(libs.serialization.json)
     implementation(libs.datetime)
     implementation(libs.coil.compose)
@@ -75,6 +74,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.icons)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.viewmodel.navigation3)
     implementation(libs.metro.android)
     implementation(libs.metro.runtime)
     implementation(libs.metro.viewmodel)
@@ -86,7 +88,6 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.coroutine.test)
-    testImplementation(libs.navigation.test)
     testImplementation(libs.paging.test)
 
     androidTestImplementation(libs.androidx.junit)
@@ -95,7 +96,6 @@ dependencies {
     androidTestImplementation(libs.turbine)
     androidTestImplementation(libs.kotlin.test)
     androidTestImplementation(libs.coroutine.test)
-    androidTestImplementation(libs.navigation.test)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

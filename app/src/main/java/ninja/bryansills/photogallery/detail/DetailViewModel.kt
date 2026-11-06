@@ -1,17 +1,13 @@
 package ninja.bryansills.photogallery.detail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.createSavedStateHandle
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.navigation.toRoute
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metrox.viewmodel.ViewModelAssistedFactory
-import dev.zacsweers.metrox.viewmodel.ViewModelAssistedFactoryKey
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,14 +24,12 @@ import ninja.bryansills.photogallery.di.ViewModelSpecific
 import ninja.bryansills.photogallery.network.PhotoRepository
 
 @AssistedInject
-class DetailViewModel constructor(
+class DetailViewModel(
     private val photoRepository: PhotoRepository,
     @Dispatcher(Dispatch.Io) private val ioDispatcher: CoroutineDispatcher,
     @ViewModelSpecific vmScope: CoroutineScope,
-    @Assisted private val savedStateHandle: SavedStateHandle
+    @Assisted private val route: Detail
 ) : ViewModel(vmScope) {
-    private val route: Detail = savedStateHandle.toRoute()
-
     val uiState: StateFlow<DetailUiState> = flow {
         val uiState = try {
             val detailResult = photoRepository.getPhotoById(route.id)
@@ -65,14 +59,10 @@ class DetailViewModel constructor(
         )
 
     @AssistedFactory
-    @ViewModelAssistedFactoryKey(DetailViewModel::class)
+    @ManualViewModelAssistedFactoryKey
     @ContributesIntoMap(AppScope::class)
-    interface Factory : ViewModelAssistedFactory {
-        override fun create(extras: CreationExtras): ViewModel {
-            return create(extras.createSavedStateHandle())
-        }
-
-        fun create(@Assisted savedStateHandle: SavedStateHandle): DetailViewModel
+    interface Factory : ManualViewModelAssistedFactory {
+        fun create(@Assisted route: Detail): DetailViewModel
     }
 }
 

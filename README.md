@@ -6,7 +6,7 @@ It was a funny coincidence, since in the 5th edition of the Big Nerd Ranch Andro
 
 Anyways, this is what I submitted.
 The project in the book used the legacy toolkit, but this one is using all the latest and greatest tools and libraries.
-It uses many of Google's libraries including: Compose, ViewModel, and Navigation.
+It uses many of Google's libraries including: Compose, ViewModel, and Nav3.
 It also uses third party libraries including: Metro, KotlinX DateTime, Coil, Turbine, and Telephoto.
 Due to a limitation somewhere in the intersection of Gradle and KMP, there are both instrumented and plain unit tests.
 

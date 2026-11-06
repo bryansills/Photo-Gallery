@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavKey
 import coil3.compose.AsyncImage
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import kotlinx.datetime.LocalDateTime
@@ -43,15 +44,16 @@ import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.resolve
 
 @Serializable
-data class Detail(val id: String, val title: String?)
+data class Detail(val id: String, val title: String?) : NavKey
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    title: String?,
-    onBack: () -> Unit
+    detail: Detail,
+    onBack: () -> Unit,
+    viewModel: DetailViewModel = assistedMetroViewModel<DetailViewModel, DetailViewModel.Factory> { create(detail) }
 ) {
-    val uiState by assistedMetroViewModel<DetailViewModel>().uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -59,7 +61,7 @@ fun DetailScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = title ?: stringResource(R.string.unknown_photo),
+                        text = detail.title.takeIf { it?.isNotBlank() == true } ?: stringResource(R.string.unknown_photo),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

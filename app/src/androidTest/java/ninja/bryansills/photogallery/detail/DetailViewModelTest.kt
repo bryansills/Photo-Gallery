@@ -1,7 +1,5 @@
 package ninja.bryansills.photogallery.detail
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.testing.invoke
 import app.cash.turbine.TurbineTestScope
 import app.cash.turbine.runTestTurbine
 import com.googlecode.flickrjandroid.FlickrException
@@ -64,7 +62,7 @@ class DetailViewModelTest {
             photoRepository = fakeService,
             ioDispatcher = StandardTestDispatcher(testScheduler),
             vmScope = backgroundScope,
-            savedStateHandle = SavedStateHandle(Detail("test-1324", "test title"))
+            route = Detail("test-1324", "test title")
         )
     }
 }
