@@ -26,10 +26,9 @@ import ninja.bryansills.photogallery.di.Dispatcher
 import ninja.bryansills.photogallery.di.ViewModelSpecific
 import ninja.bryansills.photogallery.network.GalleryItemPagingSource
 import ninja.bryansills.photogallery.network.PhotoRepository
-import javax.inject.Inject
 
 @AssistedInject
-class SearchViewModel @Inject constructor(
+class SearchViewModel(
     private val photoRepository: PhotoRepository,
     @Dispatcher(Dispatch.Io) private val ioDispatcher: CoroutineDispatcher,
     @ViewModelSpecific vmScope: CoroutineScope,

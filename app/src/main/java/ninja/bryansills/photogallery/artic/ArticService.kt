@@ -1,6 +1,10 @@
 package ninja.bryansills.photogallery.artic
 
+import android.content.Context
+import coil3.ImageLoader
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.BindingContainer
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Inject
@@ -23,6 +27,8 @@ import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.concurrent.Executors
+import okhttp3.Dispatcher as OkHttpDispatcher
 
 /**
  * A simple Retrofit API to query the Art Institute of Chicago API
@@ -122,21 +128,43 @@ private fun GetArtworkByIdResponse.toPhotoDetails(): PhotoDetails {
 }
 
 @ContributesTo(AppScope::class)
-interface ArticModule {
+@BindingContainer
+object ArticModule {
     @Provides
     @SingleIn(AppScope::class)
-    fun provideArticService(): ArticService {
+    fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(CourtesyHeaderInterceptor())
+        .build()
+
+    @Provides
+    @SingleIn(AppScope::class)
+    fun provideArticService(okHttpClient: OkHttpClient): ArticService {
         val json = Json {
             ignoreUnknownKeys = true
             encodeDefaults = true
         }
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.artic.edu/api/v1/")
-            .client(OkHttpClient())
+            .client(okHttpClient)
             .addConverterFactory(
                 json.asConverterFactory("application/json; charset=UTF8".toMediaType())
             )
             .build()
         return retrofit.create()
+    }
+
+    @Provides
+    @SingleIn(AppScope::class)
+    fun provideImageLoader(applicationContext: Context, okHttpClient: OkHttpClient): ImageLoader {
+        val okHttpDispatcher = OkHttpDispatcher(Executors.newSingleThreadExecutor())
+        val singleThreadOkHttp = okHttpClient.newBuilder()
+            .dispatcher(okHttpDispatcher)
+            .addInterceptor(CourtesyDelayInterceptor())
+            .build()
+        return ImageLoader.Builder(applicationContext)
+            .components {
+                add(OkHttpNetworkFetcherFactory(callFactory = singleThreadOkHttp))
+            }
+            .build()
     }
 }

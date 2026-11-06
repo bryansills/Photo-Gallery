@@ -8,8 +8,6 @@ import dev.zacsweers.metro.Qualifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlin.coroutines.CoroutineContext
 
 
 /**
@@ -35,13 +33,5 @@ object ViewModelSpecificBindingContainer {
     @Provides
     @ViewModelSpecific
     fun provideViewModelScope(): CoroutineScope =
-        ClearableCoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-}
-
-private class ClearableCoroutineScope(
-    override val coroutineContext: CoroutineContext
-) : CoroutineScope, AutoCloseable {
-    override fun close() {
-        coroutineContext.cancel()
-    }
+        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 }
