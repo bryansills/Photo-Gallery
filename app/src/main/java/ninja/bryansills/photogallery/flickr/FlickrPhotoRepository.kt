@@ -1,37 +1,34 @@
-package ninja.bryansills.photogallery.network
+package ninja.bryansills.photogallery.flickr
 
 import com.googlecode.flickrjandroid.Flickr
 import com.googlecode.flickrjandroid.FlickrException
+import com.googlecode.flickrjandroid.photos.Photo
+import com.googlecode.flickrjandroid.photos.PhotoList
 import com.googlecode.flickrjandroid.photos.SearchParameters
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ninja.bryansills.photogallery.data.GalleryItem
+import ninja.bryansills.photogallery.data.PhotoDetails
 import ninja.bryansills.photogallery.di.Dispatch
 import ninja.bryansills.photogallery.di.Dispatcher
+import ninja.bryansills.photogallery.network.PhotoRepository
 import org.json.JSONException
 import java.io.IOException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-import javax.inject.Inject
-import javax.inject.Singleton
+import kotlin.time.toKotlinInstant
 
-interface FlickrService {
-    suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>>
-
-    suspend fun search(query: String, page: Int, pageSize: Int): Result<List<GalleryItem>>
-
-    suspend fun getPhotoById(id: String): Result<PhotoDetails>
-}
-
-class DefaultFlickrService @Inject constructor(
+//@ContributesBinding(AppScope::class)
+//@Inject
+class FlickrPhotoRepository(
     private val flickr: Flickr,
-    @Dispatcher(Dispatch.Io) private val dispatcher: CoroutineDispatcher
-) : FlickrService {
-    override suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>> {
+    @Dispatcher(Dispatch.Io) private val dispatcher: CoroutineDispatcher,
+) : PhotoRepository {
+    override suspend fun getPhotos(page: Int, pageSize: Int): Result<List<GalleryItem>> {
         return withContext(dispatcher) {
             try {
                 val response = FlickrCompat.getList(
@@ -94,19 +91,35 @@ private val Throwable.isLibraryException: Boolean
                 || this is InvalidKeyException
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface FlickrModule {
-    @Binds
-    @Singleton
-    fun bindFlickrService(impl: DefaultFlickrService): FlickrService
+private fun PhotoList.toGalleryItems(query: String): List<GalleryItem> {
+    return this.map {
+        GalleryItem(
+            id = it.id,
+            title = it.title,
+            url = it.mediumUrl,
+            description = it.description,
+            query = query,
+        )
+    }
+}
 
-    companion object {
-        @Provides
-        @Singleton
-        fun provideFlickr(): Flickr {
-            // lots of ways to do this better/safer, but not worth implementing now
-            return Flickr("add in your API key here")
-        }
+private fun Photo.toPhotoDetails(): PhotoDetails {
+    return PhotoDetails(
+        id = this.id,
+        title = this.title,
+        url = this.largeUrl,
+        description = this.description,
+        dateTaken = this.dateTaken?.toInstant()?.toKotlinInstant(),
+        datePosted = this.datePosted?.toInstant()?.toKotlinInstant(),
+    )
+}
+
+@ContributesTo(AppScope::class)
+interface FlickrModule {
+    @Provides
+    @SingleIn(AppScope::class)
+    fun provideFlickr(): Flickr {
+        // lots of ways to do this better/safer, but not worth implementing now
+        return Flickr("add in your API key here")
     }
 }

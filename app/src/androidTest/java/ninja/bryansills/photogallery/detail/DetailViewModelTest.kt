@@ -7,8 +7,8 @@ import app.cash.turbine.runTestTurbine
 import com.googlecode.flickrjandroid.FlickrException
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
-import ninja.bryansills.photogallery.network.FakeFlickrService
-import ninja.bryansills.photogallery.network.PhotoDetails
+import ninja.bryansills.photogallery.data.PhotoDetails
+import ninja.bryansills.photogallery.network.FakePhotoRepository
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -22,7 +22,7 @@ import org.junit.Test
 class DetailViewModelTest {
     @Test
     fun showsDetailsWhenTheNetworkRequestSucceeds() = runTestTurbine {
-        val expectedDetails = FakeFlickrService.FakePhotoDetails
+        val expectedDetails = FakePhotoRepository.FakePhotoDetails
 
         val viewModel = createViewModel(
             networkResponse = Result.success(expectedDetails),
@@ -58,10 +58,10 @@ class DetailViewModelTest {
         networkResponse: Result<PhotoDetails>,
         testScheduler: TestCoroutineScheduler
     ): DetailViewModel {
-        val fakeService = FakeFlickrService(getByIdResult = networkResponse)
+        val fakeService = FakePhotoRepository(getByIdResult = networkResponse)
 
         return DetailViewModel(
-            flickrService = fakeService,
+            photoRepository = fakeService,
             ioDispatcher = StandardTestDispatcher(testScheduler),
             vmScope = backgroundScope,
             savedStateHandle = SavedStateHandle(Detail("test-1324", "test title"))

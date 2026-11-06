@@ -29,10 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -41,7 +41,7 @@ data object Search
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(onItemClicked: (String, String?) -> Unit) {
-    val viewModel: SearchViewModel = hiltViewModel()
+    val viewModel: SearchViewModel = assistedMetroViewModel()
     val pagingItems = viewModel.galleryItems.collectAsLazyPagingItems()
 
     var searchExpanded by rememberSaveable { mutableStateOf(false) }

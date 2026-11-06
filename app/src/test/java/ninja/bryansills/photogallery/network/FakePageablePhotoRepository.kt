@@ -1,11 +1,13 @@
 package ninja.bryansills.photogallery.network
 
+import ninja.bryansills.photogallery.data.GalleryItem
+import ninja.bryansills.photogallery.data.PhotoDetails
 import kotlin.time.Instant
 
-class FakePageableFlickrService(
+class FakePageablePhotoRepository(
     var getByIdResult: Result<PhotoDetails> = Result.success(FakePhotoDetails),
-) : FlickrService {
-    override suspend fun getInteresting(page: Int, pageSize: Int): Result<List<GalleryItem>> {
+) : PhotoRepository {
+    override suspend fun getPhotos(page: Int, pageSize: Int): Result<List<GalleryItem>> {
         val offset = page * pageSize
         val items = (0 until pageSize).map { index ->
             createTestGalleryItem(

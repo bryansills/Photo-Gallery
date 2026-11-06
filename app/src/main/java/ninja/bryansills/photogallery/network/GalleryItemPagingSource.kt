@@ -1,14 +1,13 @@
-package ninja.bryansills.photogallery.paging
+package ninja.bryansills.photogallery.network
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ninja.bryansills.photogallery.network.FlickrService
-import ninja.bryansills.photogallery.network.GalleryItem
+import ninja.bryansills.photogallery.data.GalleryItem
 
-class FlickrPagingSource(
-    private val flickrService: FlickrService,
+class GalleryItemPagingSource(
+    private val photoRepository: PhotoRepository,
     private val ioDispatcher: CoroutineDispatcher,
     private val query: String,
     private val pageSize: Int
@@ -18,9 +17,9 @@ class FlickrPagingSource(
 
         val response = withContext(ioDispatcher) {
             if (query.isBlank()) {
-                flickrService.getInteresting(pageNumber, pageSize)
+                photoRepository.getPhotos(pageNumber, pageSize)
             } else {
-                flickrService.search(query, pageNumber, pageSize)
+                photoRepository.search(query, pageNumber, pageSize)
             }
         }
 
