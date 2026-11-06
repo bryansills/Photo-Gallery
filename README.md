@@ -1,5 +1,5 @@
 # Photo Gallery
-<sup>~~A Flickr client~~ An image browser</sup>
+~~A Flickr client~~ A simple image browser.
 
 I recently went through an interview process with a company where I had to make a Flickr client as a take home assignment.
 It was a funny coincidence, since in the 5th edition of the Big Nerd Ranch Android guide (which I wrote), one of the projects is a Flickr client.
