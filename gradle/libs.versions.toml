@@ -42,7 +42,7 @@ desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
 flickrj-android = { module = "com.googlecode.flickrj-android:flickrj-android", version.ref = "flickrjAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.12.0" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.13.0" }
 metro-android = { module = "dev.zacsweers.metro:metrox-android", version.ref = "metro" }
 metro-runtime = { module = "dev.zacsweers.metro:runtime", version.ref = "metro" }
 metro-viewmodel = { module = "dev.zacsweers.metro:metrox-viewmodel", version.ref = "metro" }
