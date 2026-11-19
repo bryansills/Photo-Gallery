@@ -1,0 +1,50 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    'group:monorepos',
+    'group:recommended',
+    'helpers:pinGitHubActionDigestsToSemver',
+  ],
+  labels: [
+    'renovate',
+  ],
+  semanticCommits: 'disabled',
+  customManagers: [
+    // Update .java-version file with the latest JDK version.
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/\\.java-version$/',
+      ],
+      matchStrings: [
+        '(?<currentValue>.*)\\n',
+      ],
+      datasourceTemplate: 'java-version',
+      depNameTemplate: 'java',
+      // Only write the major version.
+      extractVersionTemplate: '^(?<version>\\d+)',
+    },
+  ],
+  packageRules: [
+    {
+      matchUpdateTypes: [
+        'major',
+      ],
+      // Default to 7 day dependency cooldowns.
+      minimumReleaseAge: '7 days',
+      "automerge": false
+    },
+    {
+      matchUpdateTypes: [
+        'minor',
+        'patch'
+      ],
+      // Default to 7 day dependency cooldowns.
+      minimumReleaseAge: '7 days',
+      "description": "Auto-merge most dependency updates.",
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    }
+  ]
+}
