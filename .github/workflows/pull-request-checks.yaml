@@ -26,7 +26,7 @@ jobs:
           distribution: 'zulu'
           java-version-file: .github/.java-version
 
-      - uses: gradle/actions/setup-gradle@v6
+      - uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6
         with:
           cache-disabled: true
 
@@ -41,7 +41,7 @@ jobs:
           ls /dev/kvm
 
       - name: Run instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
         with:
           api-level: 30
           arch: x86_64
