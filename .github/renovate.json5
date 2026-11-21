@@ -43,8 +43,33 @@
       // Default to 7 day dependency cooldowns.
       minimumReleaseAge: '7 days',
       "description": "Auto-merge most dependency updates.",
+      // Ignore the cooldown for libraries that have not reached 1.x status yet.
       "matchCurrentVersion": "!/^0/",
       "automerge": true
+    },
+    {
+      "matchPackagePatterns": [
+        "org.jetbrains.kotlin.*",
+        "org.jetbrains.kotlin:*"
+      ],
+      "groupName": "Kotlin",
+    },
+    {
+      "matchPackagePatterns": [
+        "dev.zacsweers.metro*"
+      ],
+      "groupName": "Metro",
+    },
+    {
+      "matchPackagePatterns": [
+        "com.android.application",
+        "com.android.library",
+        "com.android.lint",
+        "com.android.kotlin.multiplatform.library",
+        "com.android.kotlin.multiplatform.library",
+        "com.android.tools.build*"
+      ],
+      "groupName": "Android Gradle plugins",
     }
   ]
 }
