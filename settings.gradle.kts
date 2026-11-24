@@ -17,7 +17,7 @@ plugins {
     id("org.jetbrains.compose") version "1.12.2" apply false
     id("org.jetbrains.kotlin.plugin.serialization") version "2.4.21" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.4.21" apply false
-    id("dev.zacsweers.metro") version "1.5.2" apply false
+    id("dev.zacsweers.metro") version "1.6.0" apply false
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
