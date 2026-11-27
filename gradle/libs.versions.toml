@@ -11,7 +11,7 @@ junit = "4.13.2"
 kotlin = "2.4.21"
 lifecycle = "2.11.1"
 metro = "1.6.0"
-nav3 = "1.2.1"
+nav3 = "1.2.2"
 paging = "3.5.3"
 retrofit = "3.0.0"
 
